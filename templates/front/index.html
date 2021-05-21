@@ -1,0 +1,68 @@
+{% extends 'front/base.html' %}
+
+{% block main %}
+<div class="main">
+        <div class="wrapper">
+            <div class="main-content-wrapper">
+                <div class="banner-group" id="banner-group">
+                    <ul class="banner-ul" id="banner-ul">
+                        {% for banner in banners %}
+                        <li>
+                            <a href="#">
+                                <img src="{{ banner.path }}" alt="">
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <span class="arrow left-arrow">‹</span>
+                    <span class="arrow right-arrow">›</span>
+                    <div class="page-control-group">
+                        <ul class="page-control">
+                        </ul>
+                    </div>
+                </div>
+                <div class="list-outer-group">
+                    <ul class="list-tab">
+                        <li class="active"><a href="#">最新资讯</a></li>
+                    </ul>
+                    <ul class="list-inner-group">
+
+                             <li>
+                            <div class="thumbnail-group">
+                                <a href="">
+                                    <img src="" alt="">
+                                </a>
+                            </div>
+                            <div class="news-group">
+                                <p class="title">
+                                    <a href=""></a>
+                                </p>
+                                <p class="desc">
+
+                                </p>
+                                <p class="more">
+                                   <span class="category">
+
+                                   </span>
+                                    <span class="pub-time"></span>
+                                    <span class="author"></span>
+                                </p>
+                            </div>
+                        </li>
+
+
+                    </ul>
+                    <div class="load-more-group">
+                        <button class="load-more">查看更多</button>
+                    </div>
+                </div>
+            </div>
+            {% include 'front/sidebar.html' %}
+        </div>
+    </div>
+    <script>
+    $('.load-more').click(function () {
+        window.location.href = '#'
+    })
+    </script>
+{% endblock %}

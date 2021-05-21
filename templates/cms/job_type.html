@@ -1,0 +1,147 @@
+{% extends 'cms/base.html' %}
+
+{% block content %}
+<h1 style="float: left">职位分类</h1>
+<button style="float:right;margin-right: 600px;margin-bottom: 20px;margin-top: 15px" type="button" class="layui-btn layui-btn-sm layui-btn-normal add-type">增加分类</button>
+<div style="width: 600px" class="layui-form">
+  <table class="layui-table">
+    <colgroup>
+      <col width="70">
+      <col width="200">
+      <col width="200">
+      <col width="200">
+
+    </colgroup>
+    <thead>
+      <tr>
+        <th>序号</th>
+        <th>分类</th>
+        <th>创建时间</th>
+        <th>操作</th>
+
+      </tr>
+    </thead>
+    <tbody>
+    {% for jobtype in jobtypes %}
+        <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ jobtype.name }}</td>
+        <td>{{ jobtype.create_time | date:"Y/m/d G:i:s" }}</td>
+        <td>
+            <button type="button" data-id="{{ jobtype.id }}" class="layui-btn layui-btn-sm layui-btn-normal edit-type">编辑</button>
+            <button type="button" data-id="{{ jobtype.id }}" class="layui-btn layui-btn-sm layui-btn-normal delete-type">删除</button>
+        </td>
+        </tr>
+    {% endfor %}
+
+
+    </tbody>
+  </table>
+</div>
+
+    <script>
+        layui.use(['element', 'layer'], function() {
+            var $ = layui.jquery
+            , element = layui.element
+            , layer = layui.layer;
+            
+            $('.add-type').click(function () {
+                layer.open({
+                type: 1,
+                title: '增加分类',
+                btn: ['确认', '取消'],
+                shadeClose: true,
+                resize: false,
+                area: ['300px', '200px'],
+                content: `
+                          <div style="margin-top:10px" class="layui-form-item">
+                            <label class="layui-form-label">分类名</label>
+                            <div style="width:140px;" class="layui-input-block">
+                              <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入分类名称" class="layui-input">
+                            </div>
+                          </div>
+                `,
+                yes:function (index,layero) {
+                    var name = $('input[name="name"]').val();
+                    $.ajax({
+                        url:'/cms/add_jobtype/',
+                        type:'POST',
+                        data:{
+                            'name':name
+                        },
+                        success:function (res) {
+                            if(res.code === 200){
+                                layer.close(index);
+                                layer.msg('添加成功',{icon:1,time:800},function () {
+                                    window.location.reload();
+                                });
+
+                            }
+                        }
+                    })
+                }
+            });
+            });
+
+            $('.edit-type').click(function () {
+                let data_id = $(this).attr('data-id');
+                let name = $(this).parent().prev().prev().text();
+               layer.open({
+                type: 1,
+                title: '编辑分类',
+                btn: ['确认', '取消'],
+                shadeClose: true,
+                resize: false,
+                area: ['300px', '200px'],
+                content: `
+                          <div style="margin-top:10px" class="layui-form-item">
+                            <label class="layui-form-label">分类名</label>
+                            <div style="width:140px;" class="layui-input-block">
+                              <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入分类名称" value="${name}" class="layui-input">
+                            </div>
+                          </div>
+                `,
+                yes:function (index,layero) {
+                    var name = $('input[name="name"]').val();
+                    $.ajax({
+                        url:'/cms/edit_jobtype/',
+                        type:'POST',
+                        data:{
+                            'data_id':data_id,
+                            'name':name
+                        },
+                        success:function (res) {
+                            if(res.code === 200){
+                                layer.close(index);
+                                layer.msg('修改成功',{icon:1,time:800},function () {
+                                    window.location.reload();
+                                });
+
+                            }
+                        }
+                    })
+                }
+            });
+            });
+
+            $('.delete-type').click(function () {
+                let data_id = $(this).attr('data-id');
+                $.ajax({
+                    url:'/cms/delete_jobtype/',
+                    type:'POST',
+                    data:{
+                        'data_id':data_id
+                    },
+                    success:function (res) {
+                        if(res.code === 200){
+                            layer.msg('删除成功',{icon:1,time:800},function () {
+                                window.location.reload();
+                            })
+                        }
+                    }
+
+                })
+            })
+    });
+    </script>
+{% endblock %}

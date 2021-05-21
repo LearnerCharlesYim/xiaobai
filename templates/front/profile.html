@@ -1,0 +1,347 @@
+{% extends 'front/base.html' %}
+
+{% block main %}
+<div class="main">
+        <div class="wrapper">
+            <div style="background: #ffffff" class="main-content-wrapper">
+                <div style="padding: 10px" class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                  <ul class="layui-tab-title">
+                    <li class="layui-this">基础设置</li>
+                    <li>安全设置</li>
+                    <li>我的发布</li>
+                    <li>留言信息</li>
+                    <li>回复信息</li>
+                  </ul>
+                  <div class="layui-tab-content" >
+                    <div style="width: 650px" class="layui-tab-item layui-show">
+                            <div style="overflow: hidden" class="layui-form-item">
+                            <label style="float: left" class="layui-form-label">头像</label>
+                            <div style="float: left;padding: 10px;height: 55px;width:55px;">
+                                {% if frontuser.avatar %}
+                                    <img style="width: 100%;height: 100%" id="demo1" src='/static/images/{{ frontuser.avatar }}' alt="">
+                                {% else %}
+                                    <img style="width: 100%;height: 100%" id="demo1" src='/static/images/avatar.jpg' alt="">
+                                {% endif %}
+
+                            </div>
+                                <div class="layui-upload">
+                                  <button style="margin-left: 20px;margin-top: 20px" type="button" class="layui-btn" id="test1">上传图片</button>
+                                </div>
+                          </div>
+                          <div class="layui-form-item">
+                            <label class="layui-form-label">用户名</label>
+                            <div class="layui-input-block">
+                              <input type="text" name="username" lay-verify="title" autocomplete="off"  value="{{ frontuser.username }}" class="layui-input">
+                            </div>
+                          </div>
+                            <div class="layui-form-item">
+                            <label class="layui-form-label">用户角色</label>
+                            <div class="layui-input-block">
+                              <input type="text" name="username" lay-verify="title" autocomplete="off"  value="{% if frontuser.role == 1 %}用户（招聘）{% else %}员工（求职）{% endif %}" disabled class="layui-input">
+                            </div>
+                          </div>
+                          <div class="layui-form-item">
+                            <label class="layui-form-label">真实姓名</label>
+                            <div class="layui-input-block">
+                              <input type="text" name="realname" lay-verify="required"  placeholder="请输入" {% if frontuser.realname %} value="{{ frontuser.realname }}" {% endif %} autocomplete="off" class="layui-input">
+                            </div>
+                          </div>
+                              <div class="layui-form-item">
+                                <label class="layui-form-label">性别</label>
+                                <div style="line-height: 40px" class="layui-input-block">
+                                  <input type="radio" name="gender" value="1" title="男" {% if frontuser.gender == 1 or frontuser.gender == 3 %}checked=""{% endif %}>男
+                                  <input style="margin-left: 10px" type="radio" name="gender" value="2" title="女"{% if frontuser.gender == 2 %}checked=""{% endif %}>女
+                                </div>
+                              </div>
+                           <div class="layui-form-item">
+                            <label class="layui-form-label">年龄</label>
+                            <div class="layui-input-block">
+                              <input type="text" name="age" lay-verify="required"  placeholder="请输入" {% if frontuser.age %} value="{{ frontuser.age }}" {% endif %} autocomplete="off" class="layui-input">
+                            </div>
+                          </div>
+                             <div class="layui-form-item">
+                            <label class="layui-form-label">联系电话</label>
+                            <div class="layui-input-block">
+                              <input type="text" name="telephone" lay-verify="required"  placeholder="请输入" {% if frontuser.telephone %} value="{{ frontuser.telephone }}" {% endif %} autocomplete="off" class="layui-input">
+                            </div>
+                          </div>
+                        <div class="layui-form-item">
+                        <label class="layui-form-label">学历</label>
+                        <div class="layui-input-block">
+                          <select style="margin-top: 5px;width: 100px;height: 30px" name="education">
+                            <option value="" >请选择</option>
+                            <option value="1"{% if frontuser.education == 1 %}selected{% endif %}>博士</option>
+                            <option value="2"{% if frontuser.education == 2 %}selected{% endif %}>研究生</option>
+                            <option value="3"{% if frontuser.education == 3 %}selected{% endif %}>本科</option>
+                            <option value="4"{% if frontuser.education == 4 %}selected{% endif %}>高中</option>
+                            <option value="5"{% if frontuser.education == 5 %}selected{% endif %}>高中及以下</option>
+                          </select>
+                        </div>
+                      </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">个人简介</label>
+                            <div class="layui-input-block">
+                              <input type="text" name="signature" lay-verify="required"  placeholder="请输入" {% if frontuser.signature %}value="{{ frontuser.signature }}" {% endif %} autocomplete="off" class="layui-input">
+                            </div>
+                          </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">个人证书</label>
+                            <div class="layui-upload">
+                                  <button type="button" class="layui-btn" id="test2">上传证书</button>
+                                  <blockquote  class="layui-elem-quote layui-quote-nm" style="margin-left: 40px;margin-top: 10px;">
+                                    <div class="layui-upload-list" id="demo2">
+                                      {% if certificate %}
+                                        {% for item in certificate %}
+                                              <img style="margin-left: 8px;width: 50px;height: 50px" src="/static/images/{{ item.path }}" alt="">
+                                        {% endfor %}
+                                      {% endif %}
+
+                                    </div>
+                                 </blockquote>
+                                </div>
+                          </div>
+                        <div style="margin-left: 33px;padding: 10px;">
+                            <button style= "width: 100%" id="submit-btn" class="layui-btn layui-btn-danger">保存</button>
+                        </div>
+
+
+                    </div>
+                    <div style="width: 650px" class="layui-tab-item">
+
+
+                          <div class="layui-form-item">
+                            <label class="layui-form-label">原密码</label>
+                            <div class="layui-input-block">
+                              <input type="password" name="password" lay-verify="title" autocomplete="off"  class="layui-input">
+                            </div>
+                          </div>
+                          <div class="layui-form-item">
+                            <label class="layui-form-label">新密码</label>
+                            <div class="layui-input-block">
+                              <input type="password" name="password1" lay-verify="required" autocomplete="off" class="layui-input">
+                            </div>
+                          </div>
+                             <div class="layui-form-item">
+                            <label class="layui-form-label">确认密码</label>
+                            <div class="layui-input-block">
+                              <input type="password" name="password2" lay-verify="required"autocomplete="off" class="layui-input">
+                            </div>
+                          </div>
+
+                        <div style="margin-left: 33px;padding: 10px;">
+                            <button style= "width: 100%" id="pwd-btn" type="button" class="layui-btn layui-btn-danger">保存</button>
+                        </div>
+
+
+                    </div>
+                    <div class="layui-tab-item">
+                         <div style="overflow: hidden">
+
+                        <h3 style="float: left;margin-left: 20px;margin-top: 10px"></h3>
+                        <button style="float: right" id="pub-btn" class="layui-btn layui-btn-normal">发布信息</button>
+                         </div>
+                        <div>
+                            <ul style="padding: 10px;list-style: none">
+
+                                    <li data-id="">
+                                    <div style="overflow:hidden;;border-bottom: 1px solid #f2f2f2">
+                                        <div style="padding: 10px;float: left;width: 150px;height: 150px;">
+                                            <img style="width: 100%;height: 100%;" src="" alt="">
+                                        </div>
+                                        <div style="float: left;width: 550px;">
+                                            <div style="margin-top: 6px;margin-left: 20px;height: 130px">
+                                                <p style="font-size: 20px">
+                                                    赛晒撒
+                                                </p>
+                                                <p style="margin-top: 10px;font-size: 15px">哒哒哒哒哒哒</p>
+                                            </div>
+                                            <div style="margin-left: 20px;height: 35px; ">
+                                                <div style="float: left"><a href="">
+                                                    保姆
+                                                </a></div>
+                                                <div style="float: right;margin-top: 2px">2021 5 20</div>
+                                                <div class="del" data-id="" style="float: right;margin-right: 10px"><a href="javascript:void(0)">删除</a></div>
+                                                <div class="edit" data-id="" style="float: right;margin-right: 10px"><a href="javascript:void(0)">编辑</a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <div class="layui-tab-item">
+
+                        留言
+
+                    </div>
+                    <div class="layui-tab-item">
+                        回复
+                    </div>
+                  </div>
+                </div>
+            </div>
+            {% include 'front/sidebar.html' %}
+        </div>
+    </div>
+    <script>
+    layui.use(['upload', 'element', 'layer'], function() {
+            var $ = layui.jquery
+            , upload = layui.upload
+            , element = layui.element
+            , layer = layui.layer;
+              var uploadInst = upload.render({
+                    elem: '#test1'
+                    ,url: '/upload/'
+                    ,done: function(res){
+                      //如果上传失败
+                      if(res.code === 0){
+                        $('#demo1').attr('src','/static/images/'+ res.msg);
+                      }
+                      //上传成功的一些操作
+                      $('#demoText').html(''); //置空上传失败的状态
+                    }
+                    ,error: function(){
+                      //演示失败状态，并实现重传
+                      var demoText = $('#demoText');
+                      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                      demoText.find('.demo-reload').on('click', function(){
+                        uploadInst.upload();
+                      });
+                    }
+
+            });
+
+              //多图片上传
+              upload.render({
+                elem: '#test2'
+                ,url: '/upload_certificate/'
+                ,multiple: true
+                ,field:'certificate'
+                ,before: function(obj){
+                  //预读本地文件示例，不支持ie8
+                  obj.preview(function(index, file, result){
+                    $('#demo2').append('<img style="margin-left:8px;width:50px;height:50px" src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+                  });
+                }
+                ,done: function(res){
+                  //上传完毕
+                }
+              });
+
+           $('#submit-btn').click(function () {
+           var username = $('input[name="username"]').val();
+           var realname = $('input[name="realname"]').val();
+           var age = $('input[name="age"]').val();
+           var telephone = $('input[name="telephone"]').val();
+           var signature = $('input[name="signature"]').val();
+           var gender = $('input[name="gender"]:checked').val();
+           var education = $('select[name="education"]').val();
+           if(username === ''){
+               layer.msg('请输入用户名');
+               return;
+           }
+           $.ajax({
+               url:'/settings/',
+               type:'POST',
+               data:{
+                   'username':username,
+                   'realname':realname,
+                   'telephone':telephone,
+                   'signature':signature,
+                   'gender':gender,
+                   'age':age,
+                   'education':education
+               },
+               success:function (data) {
+                   if(data['code'] === 200){
+                       layer.msg('修改成功', {icon: 1});
+
+                   }else{
+                       layer.msg(data['message'],{icon:2});
+                       $('input[name="username"]').val('');
+                   }
+               }
+           })
+        });
+           $('#pwd-btn').click(function () {
+           var password = $('input[name="password"]').val();
+           var password1 = $('input[name="password1"]').val();
+           var password2 = $('input[name="password2"]').val();
+           if(parseInt(password) !== {{ frontuser.password }}){
+               layer.msg('原密码错误',{icon:2});
+               $('input[name="password"]').val('');
+               return;
+           }
+           if(password1 === ''){
+               layer.msg('请输入密码',{icon:2});
+               return;
+           }
+           if(password1 !== password2){
+               layer.msg('两次密码不一致',{icon:2});
+               $('input[name="password1"]').val('');
+               $('input[name="password2"]').val('');
+               return;
+           }
+           $.ajax({
+               url:'/repwd/',
+               type:'POST',
+               data:{
+                   'password':password1,
+
+               },
+               success:function (data) {
+                   if(data['code'] === 200){
+                       layer.msg(data['message'], {icon: 1});
+                       $('input[name="password"]').val('');
+                       $('input[name="password1"]').val('');
+                       $('input[name="password2"]').val('');
+                   }
+               }
+           })
+        });
+
+
+    });
+
+
+    $('.del a').click(function () {
+        var self = $(this);
+        self.parent().parent().parent().parent().remove();
+        var data_id = self.parent().attr('data-id');
+        $.ajax({
+            url:'/del_res/',
+            type:'POST',
+            data:{
+                'data_id':data_id
+            },
+            success:function (data) {
+                if(data['code'] === 200)
+                    alert('下架成功');
+            }
+        })
+    });
+
+    $(function () {
+    layui.use(['layer'], function () {
+        var $ = layui.jquery
+            , layer = layui.layer;
+        $('.edit a').click(function () {
+            var data_id = $(this).parent().attr('data-id');
+            layer.open({
+                type: 2,
+                title: '编辑资源',
+                shadeClose: true,
+                shade: 0.4,
+                area: ['600px', '500px'],
+                content: ['/edit_res/?id='+data_id, 'no'], //iframe的url
+            });
+        });
+    });
+});
+
+</script>
+
+    
+{% endblock %}
