@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,reverse
 from django.views.decorators.http import require_http_methods
-from .models import Admin,Banner
+from .models import Admin,Banner,News
 from front.models import User,Jobtype
 from django.http import JsonResponse
 # Create your views here.
@@ -123,4 +123,49 @@ def delete_jobtype(request):
     data_id = request.POST.get('data_id')
     joptype = Jobtype.objects.get(id=data_id)
     joptype.delete()
+    return JsonResponse({'code':200,'message':''})
+
+def news_list(request):
+    newses = News.objects.filter(type=2).order_by('-pub_time').all()
+    return render(request,'cms/news_list.html',context={'newses':newses})
+
+def pub_news(request):
+    if request.method == 'GET':
+        return render(request,'cms/pub_news.html')
+    else:
+        title = request.POST.get('title')
+        desc = request.POST.get('desc')
+        content = request.POST.get('content')
+        news = News(title=title,desc=desc,content=content,type=2)
+        news.author = request.admin
+        news.save()
+        return JsonResponse({'code':200,'message':''})
+
+@require_http_methods(['POST'])
+def delete_news(request):
+    data_id = request.POST.get('data_id')
+    news = News.objects.get(id=data_id)
+    news.delete()
+    return JsonResponse({'code':200,'message':''})
+
+def announcement(request):
+    announcements = News.objects.filter(type=1).order_by('-pub_time').all()
+    return render(request,'cms/announcement.html',context={'announcements':announcements})
+
+def pub_announcement(request):
+    if request.method == 'GET':
+        return render(request,'cms/pub_announcement.html')
+    else:
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        news = News(title=title,content=content,type=1)
+        news.author = request.admin
+        news.save()
+        return JsonResponse({'code':200,'message':''})
+
+@require_http_methods(['POST'])
+def delete_announcement(request):
+    data_id = request.POST.get('data_id')
+    news = News.objects.get(id=data_id)
+    news.delete()
     return JsonResponse({'code':200,'message':''})

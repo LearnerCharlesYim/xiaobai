@@ -8,6 +8,7 @@ class Admin(models.Model):
 
 class News(models.Model):
     title = models.CharField(max_length=254)
+    desc = models.CharField(max_length=254,null=True)
     content = models.TextField()
     type = models.IntegerField(choices=((1,'公告'),(2,'培训文章')))
     pub_time = models.DateTimeField(auto_now_add=True)

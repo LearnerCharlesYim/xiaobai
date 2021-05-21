@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'front',
     'cms',
+    'ueditor',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+UEDITOR_UPLOAD_TO_SERVER = True
+
+UEDITOR_UPLOAD_PATH = os.path.join(os.path.join(BASE_DIR, "static"),'images','ueditor')
+
+UEDITOR_CONFIG_PATH = os.path.join(BASE_DIR,"static",'ueditor','config.json')

@@ -2,12 +2,13 @@
 
 {% block content %}
 <h1 style="float: left">职位分类</h1>
-<button style="float:right;margin-right: 600px;margin-bottom: 20px;margin-top: 15px" type="button" class="layui-btn layui-btn-sm layui-btn-normal add-type">增加分类</button>
-<div style="width: 600px" class="layui-form">
+<button style="float:right;margin-right: 440px;margin-bottom: 20px;margin-top: 15px" type="button" class="layui-btn layui-btn-sm layui-btn-normal add-type">增加分类</button>
+<div style="width: 700px" class="layui-form">
   <table class="layui-table">
     <colgroup>
       <col width="70">
       <col width="200">
+      <col width="150">
       <col width="200">
       <col width="200">
 
@@ -16,6 +17,7 @@
       <tr>
         <th>序号</th>
         <th>分类</th>
+        <th>职位数量</th>
         <th>创建时间</th>
         <th>操作</th>
 
@@ -26,6 +28,7 @@
         <tr>
         <td>{{ forloop.counter }}</td>
         <td>{{ jobtype.name }}</td>
+        <td>{{ jobtype.offer_set.all | length }}</td>
         <td>{{ jobtype.create_time | date:"Y/m/d G:i:s" }}</td>
         <td>
             <button type="button" data-id="{{ jobtype.id }}" class="layui-btn layui-btn-sm layui-btn-normal edit-type">编辑</button>
@@ -85,7 +88,7 @@
 
             $('.edit-type').click(function () {
                 let data_id = $(this).attr('data-id');
-                let name = $(this).parent().prev().prev().text();
+                let name = $(this).parent().prev().prev().prev().text();
                layer.open({
                 type: 1,
                 title: '编辑分类',

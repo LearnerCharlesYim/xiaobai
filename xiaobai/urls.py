@@ -13,8 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
+
+from django.urls import path,include
 from front import views as front_views
 from cms import views as cms_views
 
@@ -43,4 +43,11 @@ urlpatterns = [
     path('cms/add_jobtype/', cms_views.add_jobtype, name='add_jobtype'),
     path('cms/edit_jobtype/', cms_views.edit_jobtype, name='edit_jobtype'),
     path('cms/delete_jobtype/', cms_views.delete_jobtype, name='delete_jobtype'),
+    path('cms/pub_news/', cms_views.pub_news, name='pub_news'),
+    path('cms/news/', cms_views.news_list, name='news_list'),
+    path('cms/delete_news/', cms_views.delete_news, name='delete_news'),
+    path('ueditor/', include('ueditor.urls')),
+    path('cms/announcement/', cms_views.announcement,name='announcement'),
+    path('cms/pub_announcement/', cms_views.pub_announcement,name='pub_announcement'),
+    path('cms/delete_announcement/', cms_views.delete_announcement,name='delete_announcement'),
 ]

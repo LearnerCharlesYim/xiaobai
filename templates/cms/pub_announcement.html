@@ -1,0 +1,61 @@
+{% extends 'cms/base.html' %}
+{% block head %}
+    <script src="{% static 'ueditor/ueditor.config.js' %}"></script>
+    <script src="{% static 'ueditor/ueditor.all.min.js' %}"></script>
+{% endblock %}
+{% block content %}
+<h1>发布公告</h1>
+    <div style="margin-top: 10px;margin-bottom: 60px;margin-left: -64px;width: 1100px">
+         <div class="layui-form-item">
+                <label class="layui-form-label">标题</label>
+                <div class="layui-input-block">
+                 <input type="text" name="title"  autocomplete="off" placeholder="请输入标题" class="layui-input">
+                </div>
+        </div>
+            <div class="layui-form-item">
+                    <label class="layui-form-label">内容</label>
+                    <div class="layui-input-block">
+                        <script id="editor" type="text/plain"></script>
+                    </div>
+            </div>
+              <button style="float: right;" id="pub-btn" type="button" class="layui-btn layui-btn-normal">发表</button>
+
+    </div>
+    <script>
+    var ue = UE.getEditor('editor',{
+        'initialFrameHeight':400,
+        'serverUrl':'/ueditor/upload/'
+    });
+
+    layui.use(['layer'], function () {
+         var $ = layui.jquery
+            , layer = layui.layer;
+        $('#pub-btn').click(function () {
+        let title = $('input[name="title"]').val();
+        let desc = $('input[name="desc"]').val();
+        let content = ue.getContent();
+        if(title === '' || content === ''){
+           layer.msg('请输入完整内容',{icon:2});
+            return;
+        }
+        $.ajax({
+            url:'/cms/pub_announcement/',
+            type:'POST',
+            data:{
+              'title':title,
+              'content':content
+            },
+            success:function (res) {
+                if(res.code === 200){
+                    layer.msg('发布成功',{icon:1,time:800},function () {
+                        window.location.href = '/cms/announcement/';
+                    })
+                }
+            }
+        })
+
+    })
+    });
+
+    </script>
+{% endblock %}

@@ -10,8 +10,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="format-detection" content="telephone=no">
-
   <link rel="stylesheet" href="{% static 'layui/css/layui.css' %}"  media="all">
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="{% static 'layui/layui.js' %}" charset="utf-8"></script>
   <style>
     /* 移动端 */
@@ -22,6 +22,9 @@
       .layui-layout-admin .layui-side{left: -300px;}
     }
   </style>
+    {% block head %}
+
+    {% endblock %}
 </head>
 <body>
 
@@ -69,8 +72,8 @@
           <li class="layui-nav-item">
           <a href="javasript:;">发布管理</a>
               <dl class="layui-nav-child">
-            <dd><a href="">发布公告</a></dd>
-            <dd><a href="">发布培训新闻</a></dd>
+            <dd><a href="{% url 'announcement' %}">公告管理</a></dd>
+            <dd><a href="{% url 'news_list' %}">培训文章管理</a></dd>
           </dl>
         </li>
       </ul>
