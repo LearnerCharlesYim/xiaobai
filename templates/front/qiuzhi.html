@@ -21,7 +21,7 @@
         margin-left: 10px;
     }
         .secitem a.select {
-        margin-left: -5px;
+
         color: #ff552e;
         font-weight: 700;
         text-decoration: none;
@@ -39,11 +39,13 @@
                     <div style="margin-top: 20px;margin-left: 20px">
                    <dl  style="padding: 1px" class="secitem">
 		            <dt class="secitem_brand">类别 ：</dt>
-		                <dd id="">
-			            <a href="" class="select">全部</a>
+
+		                <dd>
+			            <a href="{% url 'qiuzhi' %}" {% if not type  %} class="select"{% endif %}>全部</a>
                             {% for jobtype in jobtypes %}
-                                    <a href="">{{ jobtype.name }}</a>
+                                <a href="{% url 'qiuzhi' %}?type={{ jobtype.id }}" {% if type == jobtype.id %} class="select" {% endif %}>{{ jobtype.name }}</a>
                             {% endfor %}
+
 	                    </dd>
                     </dl>
                     </div>

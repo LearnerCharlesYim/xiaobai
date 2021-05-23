@@ -59,4 +59,5 @@ urlpatterns = [
     path('job/', front_views.zhaopin,name='zhaopin'),
     path('job_hunting/', front_views.qiuzhi,name='qiuzhi'),
     path('news/', front_views.news,name='news'),
+    path('news/<id>', front_views.news_detail,name='news_detail'),
 ]

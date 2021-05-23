@@ -34,6 +34,7 @@ def signin(request):
     if user:
         if user.is_active:
             request.session['user_id'] = user.id
+            print(remember)
             if remember:
                 request.session.set_expiry(None)
             else:
@@ -169,23 +170,41 @@ def edit_offer(request):
         return JsonResponse({'code':200, 'message':''})
 
 def zhaopin(request):
-    jobtypes = Jobtype.objects.all()
+    type = int(request.GET.get('type',default=0))
     offers = Offer.objects.filter(type=1).order_by('-pub_time')
+
+    for jobtype in Jobtype.objects.all():
+        if type == jobtype.id:
+            offers = Offer.objects.filter(type=1,category=jobtype).order_by('-pub_time')
+
+    jobtypes = Jobtype.objects.all()
     context = {
         'jobtypes':jobtypes,
-        'offers':offers
+        'offers':offers,
+        'type':type
     }
     return render(request,'front/zhaopin.html', context=context)
 
 def qiuzhi(request):
-    jobtypes = Jobtype.objects.all()
+    type = int(request.GET.get('type', default=0))
     offers = Offer.objects.filter(type=2).order_by('-pub_time')
+    for jobtype in Jobtype.objects.all():
+        if type == jobtype.id:
+            offers = Offer.objects.filter(type=2,category=jobtype).order_by('-pub_time')
+
+    jobtypes = Jobtype.objects.all()
+
     context = {
         'jobtypes':jobtypes,
-        'offers':offers
+        'offers':offers,
+        'type': type
     }
     return render(request,'front/qiuzhi.html', context=context)
 
 def news(request):
     newses = News.objects.filter(type=2).order_by('-pub_time')
     return render(request,'front/news.html',context={'newses':newses})
+
+def news_detail(request,id):
+    news = News.objects.get(id=id)
+    return render(request,'front/news_detail.html',context={'news':news})

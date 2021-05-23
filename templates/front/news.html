@@ -13,7 +13,7 @@
                              <li>
                             <div style="float: left;width: 100%;height: 100%" class="news-group">
                                 <p class="title">
-                                    <a href="#">{{ news.title }}</a>
+                                    <a href="{% url 'news_detail' id=news.id %}">{{ news.title }}</a>
                                 </p>
                                 <p class="desc">
                                     {{ news.desc |safe}}
