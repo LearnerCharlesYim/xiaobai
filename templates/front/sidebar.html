@@ -40,7 +40,7 @@
                 <div style="width: 345px;height: 46px;">
                     <div style="padding: 26px;overflow: hidden;text-align: center">
                         <ul style="list-style: none;">
-                            <li style="float: left"><a href="">发布信息 </a></li>
+                            <li style="float: left"><a href="">发布信息&nbsp;{{ frontuser.offer_set.all|length }} </a></li>
                             <li style="float: left;margin-left: 20px;color: #f2f2f2">|</li>
                             <li style="float: left;margin-left: 20px"><a href="">留言 </a></li>
                             <li style="float: left;margin-left: 20px;color: #f2f2f2">|</li>
@@ -52,9 +52,9 @@
                     {% if frontuser %}
                         <button style="width: 100%" id="subres-btn" type="button" class="layui-btn layui-btn-danger">
                         {% if frontuser.role == 1 %}
-                        发布招聘信息
+                        发布求职信息
                          {% else %}
-                         发布求职信息
+                         发布招聘信息
                         {% endif %}
                         </button>
                     {% endif %}
@@ -67,26 +67,23 @@
                         <span class="title">最新公告</span>
                     </div>
                     <ul class="hot-list-group">
-
-                           <li style="margin-bottom: 10px">
-                            <div class="left-group">
+                        {% for announcement in announcements %}
+                        <li style="margin-bottom: 10px">
+                            <div style="width: 300px;height: 100px" class="left-group">
                                 <p class="title">
-                                    <a href=""></a>
+                                    <a href="">{{ announcement.title }}</a>
+                                </p>
+                                <p style="margin-top: 5px">
+                                    {{ announcement.content |safe |truncatechars:50 }}
                                 </p>
                                 <p class="more">
-                                    <span class="category">
 
-                                    </span>
-                                    <span class="pub-time"></span>
+                                    <span style="float: left" class="pub-time">{{ announcement.pub_time | date:"Y/m/d G:i:s" }}</span>
                                 </p>
                             </div>
-                            <div class="right-group">
-                                <a href="">
-                                    <img src="" alt="">
-                                </a>
-                            </div>
-                        </li>
 
+                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>

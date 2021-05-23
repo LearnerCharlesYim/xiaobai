@@ -33,7 +33,7 @@ class Offer(models.Model):
     category = models.ForeignKey('Jobtype',on_delete=models.SET_NULL,null=True)
     pub_time = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey('User',on_delete=models.CASCADE)
-    type = models.IntegerField(choices=((1,'发布招聘'),(2,'求职')))
+    type = models.IntegerField(choices=((1,'求职'),(2,'发布招聘')))
 
 
 class Comments(models.Model):

@@ -28,10 +28,10 @@
             </div>
 
             <ul class="nav">
-                <li class="active"><a href="/">首页</a></li>
-                <li><a href="javascript:;">招聘信息</a></li>
-                <li><a href="javascript:;">求职信息</a></li>
-                <li><a href="javascript:;">培训新闻</a></li>
+                <li><a href="/">首页</a></li>
+                <li><a href="{% url 'zhaopin' %}">招聘信息</a></li>
+                <li><a href="{% url 'qiuzhi' %}">求职信息</a></li>
+                <li><a href="{% url 'news' %}">培训新闻</a></li>
 
             </ul>
 
@@ -73,6 +73,7 @@
                             <li><a href="#">招聘信息</a></li>
                             <li><a href="#">求职信息</a></li>
                             <li><a href="#">培训新闻</a></li>
+                            <li><a href="{% url 'cms_index' %}">后台管理系统</a></li>
                         </ul>
                     </div>
                 </div>

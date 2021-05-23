@@ -23,34 +23,33 @@
                 </div>
                 <div class="list-outer-group">
                     <ul class="list-tab">
-                        <li class="active"><a href="#">最新资讯</a></li>
+                        <li class="active"><a href="#">最新信息</a></li>
                     </ul>
                     <ul class="list-inner-group">
-
+                        {% for offer in offers %}
                              <li>
                             <div class="thumbnail-group">
                                 <a href="">
-                                    <img src="" alt="">
+                                    <img src="{{ offer.img }}" alt="">
                                 </a>
                             </div>
                             <div class="news-group">
                                 <p class="title">
-                                    <a href=""></a>
+                                    <a href="">{{ offer.title }}</a>
                                 </p>
                                 <p class="desc">
-
+                                    {{ offer.desc|truncatechars:130  }}
                                 </p>
                                 <p class="more">
                                    <span class="category">
-
+                                        {{ offer.category.name }}
                                    </span>
-                                    <span class="pub-time"></span>
-                                    <span class="author"></span>
+                                    <span class="pub-time">{{ offer.pub_time | date:"Y/m/d G:i:s" }}</span>
+                                    <span class="author">{{ offer.author.username }}</span>
                                 </p>
                             </div>
                         </li>
-
-
+                        {% endfor %}
                     </ul>
                     <div class="load-more-group">
                         <button class="load-more">查看更多</button>

@@ -64,7 +64,7 @@ $(function () {
             }
 
             $.ajax({
-                url:'signup/',
+                url:'/signup/',
                 type:'POST',
                 data:{
                     'username':username,

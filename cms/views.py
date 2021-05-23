@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,reverse
 from django.views.decorators.http import require_http_methods
 from .models import Admin,Banner,News
-from front.models import User,Jobtype
+from front.models import User,Jobtype,Offer
 from django.http import JsonResponse
 # Create your views here.
 
@@ -168,4 +168,21 @@ def delete_announcement(request):
     data_id = request.POST.get('data_id')
     news = News.objects.get(id=data_id)
     news.delete()
+    return JsonResponse({'code':200,'message':''})
+
+#招聘管理
+def job_manage(request):
+    jobs = Offer.objects.filter(type=2).order_by('-pub_time')
+    return render(request,'cms/job_manage.html',context={'jobs':jobs})
+
+#求职管理
+def jobhunting_manage(request):
+    jobs = Offer.objects.filter(type=1).order_by('-pub_time')
+    return render(request,'cms/jobhunting_manage.html',context={'jobs':jobs})
+
+@require_http_methods(['POST'])
+def delete_job(request):
+    data_id = request.POST.get('data_id')
+    offer = Offer.objects.get(id=data_id)
+    offer.delete()
     return JsonResponse({'code':200,'message':''})

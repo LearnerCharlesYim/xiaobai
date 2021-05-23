@@ -1,0 +1,81 @@
+{% extends 'front/base.html' %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/job.css' %}">
+        <style>
+        .secitem {
+        clear: both;
+        line-height: 34px;
+        overflow: hidden;
+        padding-left: 19px;
+        padding-right: 10px;
+    }
+        .secitem dt {
+        float: left;
+        white-space: nowrap;
+        text-align: right;
+        width: 75px;
+        color: #999;
+        padding-right: 10px;
+    }
+        .secitem a{
+        margin-left: 10px;
+    }
+        .secitem a.select {
+        margin-left: -5px;
+        color: #ff552e;
+        font-weight: 700;
+        text-decoration: none;
+        position: relative;
+    }
+    </style>
+{% endblock %}
+{% block main %}
+<div class="main">
+        <div class="wrapper">
+            <div class="main-content-wrapper">
+
+                <div class="recommend-group">
+                    <p class="recommend-title">求职信息</p>
+                    <div style="margin-top: 20px;margin-left: 20px">
+                   <dl  style="padding: 1px" class="secitem">
+		            <dt class="secitem_brand">类别 ：</dt>
+		                <dd id="">
+			            <a href="" class="select">全部</a>
+                            {% for jobtype in jobtypes %}
+                                    <a href="">{{ jobtype.name }}</a>
+                            {% endfor %}
+	                    </dd>
+                    </dl>
+                    </div>
+                    <ul class="recommend-list">
+                        {% for offer in offers %}
+                            <li>
+                            <div class="thumbnail-group">
+                                <a href="#">
+                                    <img src="{{ offer.img }}" alt="">
+                                </a>
+                            </div>
+                            <div class="news-group">
+                                <p class="title">
+                                    <a href="#">{{ offer.title }}</a>
+                                </p>
+                                <p class="desc">
+                                    {{ offer.desc |truncatechars:130 }}
+                                </p>
+                                <p class="more">
+                                   <span class="category">{{ offer.category.name }}</span>
+                                    <span class="pub-time">{{ offer.pub_time | date:"Y/m/d G:i:s" }}</span>
+                                    <span class="author">{{ offer.author.username }}</span>
+                                </p>
+                            </div>
+                        </li>
+                        {% endfor %}
+
+                    </ul>
+                </div>
+            </div>
+            {% include 'front/sidebar.html' %}
+        </div>
+
+    </div>
+{% endblock %}

@@ -71,6 +71,7 @@ TEMPLATES = [
 
                 'front.context_processors.frontuser',
                 'cms.context_processors.cmsadmin',
+                'front.context_processors.news',
             ],
             'builtins':['django.templatetags.static'],
         },

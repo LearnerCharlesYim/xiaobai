@@ -3,6 +3,7 @@
 # @Author :CharlesYim
 # @File   :context_processors.py.py
 from .models import User
+from cms.models import News
 
 def frontuser(request):
     user_id = request.session.get("user_id")
@@ -11,3 +12,7 @@ def frontuser(request):
         return {'frontuser': user}
     else:
         return {}
+
+def news(request):
+    announcements = News.objects.filter(type=1).order_by('-pub_time').all()[:2]
+    return {'announcements':announcements}

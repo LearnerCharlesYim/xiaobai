@@ -1,0 +1,73 @@
+{% extends 'cms/base.html' %}
+
+{% block content %}
+<h1>求职信息管理</h1>
+ <div style="margin-top: 20px" class="layui-form">
+  <table class="layui-table">
+    <colgroup>
+      <col width="70">
+      <col width="150">
+      <col width="400">
+      <col width="150">
+      <col width="150">
+      <col width="150">
+
+    </colgroup>
+    <thead>
+      <tr>
+        <th>序号</th>
+        <th>标题</th>
+        <th>描述</th>
+        <th>职位分类</th>
+        <th>员工</th>
+        <th>创建时间</th>
+        <th>操作</th>
+
+      </tr>
+    </thead>
+    <tbody>
+    {% for job in jobs %}
+        <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ job.title }}</td>
+        <td>{{ job.desc | truncatechars:100 }}</td>
+        <td>{{ job.category.name }}</td>
+        <td>{{ job.author.username }}</td>
+        <td>{{ job.pub_time | date:"Y/m/d G:i:s" }}</td>
+        <td>
+            <button type="button" data-id="{{ job.id }}" class="layui-btn layui-btn-sm layui-btn-normal delete-job">删除</button>
+        </td>
+        </tr>
+    {% endfor %}
+
+
+    </tbody>
+  </table>
+</div>
+<script>
+    layui.use(['element', 'layer'], function() {
+            var $ = layui.jquery
+            , layer = layui.layer;
+            $('.delete-job').click(function () {
+                let self = $(this);
+                let data_id = self.attr('data-id');
+                $.ajax({
+                    url:'/cms/delete_job/',
+                    type:'POST',
+                    data:{
+                        'data_id':data_id
+                    },
+                    success:function (res) {
+                        if(res.code === 200){
+                            layer.msg('删除成功',{icon:1});
+                            self.parent().parent().remove();
+
+                        }
+                    }
+                })
+            })
+
+
+    });
+    </script>
+{% endblock %}

@@ -37,7 +37,7 @@
                             <div class="layui-form-item">
                             <label class="layui-form-label">用户角色</label>
                             <div class="layui-input-block">
-                              <input type="text" name="username" lay-verify="title" autocomplete="off"  value="{% if frontuser.role == 1 %}用户（招聘）{% else %}员工（求职）{% endif %}" disabled class="layui-input">
+                              <input type="text" name="username" lay-verify="title" autocomplete="off"  value="{% if frontuser.role == 1 %}员工（求职）{% else %}用户（招聘）{% endif %}" disabled class="layui-input">
                             </div>
                           </div>
                           <div class="layui-form-item">
@@ -138,34 +138,37 @@
                          <div style="overflow: hidden">
 
                         <h3 style="float: left;margin-left: 20px;margin-top: 10px"></h3>
-                        <button style="float: right" id="pub-btn" class="layui-btn layui-btn-normal">发布信息</button>
+                        <button style="float: right" id="pub-btn" class="layui-btn layui-btn-normal">发布{% if frontuser.role == 1 %}求职{% else %}招聘{% endif %}信息</button>
                          </div>
                         <div>
-                            <ul style="padding: 10px;list-style: none">
+                            <ul class="offer" style="padding: 10px;list-style: none">
+                                {% for offer in offers %}
 
-                                    <li data-id="">
+                                    <li data-id="{{ offer.id }}">
                                     <div style="overflow:hidden;;border-bottom: 1px solid #f2f2f2">
                                         <div style="padding: 10px;float: left;width: 150px;height: 150px;">
-                                            <img style="width: 100%;height: 100%;" src="" alt="">
+                                            <img style="width: 100%;height: 100%;" src="{{ offer.img }}" alt="">
                                         </div>
                                         <div style="float: left;width: 550px;">
                                             <div style="margin-top: 6px;margin-left: 20px;height: 130px">
                                                 <p style="font-size: 20px">
-                                                    赛晒撒
+                                                    {{ offer.title }}
                                                 </p>
-                                                <p style="margin-top: 10px;font-size: 15px">哒哒哒哒哒哒</p>
+                                                <p style="margin-top: 10px;font-size: 15px">{{ offer.desc|truncatechars:130 }}</p>
                                             </div>
                                             <div style="margin-left: 20px;height: 35px; ">
                                                 <div style="float: left"><a href="">
-                                                    保姆
+                                                    {{ offer.category.name }}
                                                 </a></div>
-                                                <div style="float: right;margin-top: 2px">2021 5 20</div>
-                                                <div class="del" data-id="" style="float: right;margin-right: 10px"><a href="javascript:void(0)">删除</a></div>
-                                                <div class="edit" data-id="" style="float: right;margin-right: 10px"><a href="javascript:void(0)">编辑</a></div>
+                                                <div style="float: right;margin-top: 2px">{{ offer.pub_time | date:"Y/m/d G:i:s" }}</div>
+                                                <div class="del" data-id="{{ offer.id }}" style="float: right;margin-right: 10px"><a href="javascript:void(0)">删除</a></div>
+                                                <div class="edit" data-id="{{ offer.id }}" style="float: right;margin-right: 10px"><a href="javascript:void(0)">编辑</a></div>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
+                                {% endfor %}
+
                             </ul>
                         </div>
                     </div>
@@ -301,12 +304,7 @@
                }
            })
         });
-
-
-    });
-
-
-    $('.del a').click(function () {
+           $('.del a').click(function () {
         var self = $(this);
         self.parent().parent().parent().parent().remove();
         var data_id = self.parent().attr('data-id');
@@ -318,28 +316,24 @@
             },
             success:function (data) {
                 if(data['code'] === 200)
-                    alert('下架成功');
+                    layer.msg('删除成功',{icon:1})
             }
         })
     });
-
-    $(function () {
-    layui.use(['layer'], function () {
-        var $ = layui.jquery
-            , layer = layui.layer;
-        $('.edit a').click(function () {
+           $('.edit a').click(function () {
             var data_id = $(this).parent().attr('data-id');
             layer.open({
                 type: 2,
-                title: '编辑资源',
+                title: '编辑信息',
                 shadeClose: true,
                 shade: 0.4,
                 area: ['600px', '500px'],
-                content: ['/edit_res/?id='+data_id, 'no'], //iframe的url
+                content: ['/edit_offer/?id='+data_id, 'no'], //iframe的url
+
             });
         });
+
     });
-});
 
 </script>
 
